@@ -1,0 +1,27 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/534/week-1-may-1st-may-7th/3316/
+
+Logic - Use binary search. If the middle element is bad, then check if its the first bad element. If not, then check the left sub-array for the first bad element. If the middle element is not bad, check the right sub-array for the first bad element.
+
+Code -
+
+# The isBadVersion API is already defined for you.
+# @param version, an integer
+# @return a bool
+# def isBadVersion(version):
+
+class Solution:
+    def firstBadVersion(self, n):
+        low = 1
+        high = n
+        while low <= high:
+            mid = int((low+high)/2)
+            isBad = isBadVersion(mid)
+            if isBad:
+                if mid == 0:
+                    return mid
+                if not isBadVersion(mid-1):
+                    return mid
+                else:
+                    high = mid-1
+            else:
+                low = mid+1

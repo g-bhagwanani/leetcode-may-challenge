@@ -1,0 +1,18 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/534/week-1-may-1st-may-7th/3320/
+
+Logic - First create a dictionary to store the number of occurences of every character in the given string. Now, iterate the string again and check using the dictionary for each character whether it has occured once. If yes, return the index of that character.
+
+Code -
+
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        counter = {}
+        for char in s:
+            if char in counter:
+                counter[char] += 1
+            else:
+                counter[char] = 1
+        for i in range(len(s)):
+            if counter[s[i]] == 1:
+                return i
+        return -1

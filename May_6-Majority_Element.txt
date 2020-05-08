@@ -1,0 +1,21 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/534/week-1-may-1st-may-7th/3321/
+
+Logic - An easy time efficient approach is to start with creating a dictionary to count the number of occurences of an element in the array. While inserting an element, check if its count has exceeded floor(n/2). If yes, return the number.
+Here, Moore's voting algorithm is used to have a space efficient apprach (the above approach has space complexity of O(n)). In Moore's voting algorithm, the idea is that if an element is the majority element, then its count will always be higher than the sum of the counts of every other element. So, if we +1 for the majority element and -1 for everything else, then the end result would be a positive number. 
+Here, we do not know the majority element beforehand, so we assume a candidate - the first element. We assume that it is the majority element and initiate a count element to 1 (for the first element). Now for every other element, +1 if it is the candidate, -1 otherwise. If the count becomes zero, it means that maybe this candidate isn't the majority element we were looking for, so we now change candidate to the current element being visited and reinitialize the count to 1. Continue this till the end, the candidate at the end will be the result (since the question says that majority element always exists, we do not need to reiterate the array to check if the candidate we have at the end is majority element or not).
+
+Code -
+
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        candidate = 0
+        count = 1
+        for i in range(len(nums)):
+            if nums[i] == nums[candidate]:
+                count += 1
+            else:
+                count -= 1
+            if count == 0:
+                candidate = i
+                count = 1
+        return nums[candidate]

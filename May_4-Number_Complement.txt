@@ -1,0 +1,15 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/534/week-1-may-1st-may-7th/3319/
+
+Logic - A binary number's complement is when its bits are flipped (0 to 1 and vice versa). So if a binary number is XORed with an all-ones binary number, then the result will have all bits flipped (because 1 XOR 1 = 0 and 0 XOR 1 = 1). So, we count the number of bits that the given integer will require in binary, and then generate an all-ones number for that many number of bits. Then we XOR this all-ones number with the given number to get the result
+
+Code - 
+
+import math
+class Solution:
+    def findComplement(self, num: int) -> int:
+#       num XOR all-one's = complement
+#       101 XOR 111 = 010
+        digitCount = int(math.log(num, 2) + 1)
+        allOnes = math.pow(2,digitCount) - 1
+        complement = num ^ int(allOnes)
+        return complement

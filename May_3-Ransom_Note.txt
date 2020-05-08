@@ -1,0 +1,23 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/534/week-1-may-1st-may-7th/3318/
+
+Logic - Create a dictionary to count the occurences of characters in magazine. Iterate over characters in ransomNote. For each character, reduce the count of that character from the dictionary by one, signifying that it is used up to construct ransomNote. If before reducing, count becomes zero (or the character is not present in the dictionary), then ransomNote cannot be constructed
+
+Code -
+
+class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        magazinesDict = {}
+        
+        for char in magazine:
+            if char in magazinesDict:
+                magazinesDict[char] += 1
+            else:
+                magazinesDict[char] = 1
+        
+        for char in ransomNote:
+            if char not in magazinesDict or magazinesDict[char] == 0:
+                return False
+            else:
+                magazinesDict[char] -= 1
+                
+        return True

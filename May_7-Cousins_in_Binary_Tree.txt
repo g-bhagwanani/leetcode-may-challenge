@@ -1,0 +1,30 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/534/week-1-may-1st-may-7th/3322/
+
+Logic - First we create a dictionary to store the depth and parent of all non-null the elements in the given tree. To do this, we call the insertEle function for the root element (which inserts depth and parent of the passed node in the dictionary), and then the root recursively calls it its left and right children and so on.
+
+Code - 
+
+elements = {}
+
+def insertEle(root, depth, parent):
+    global elements
+    if root:
+        elements[root.val] = {'depth' : depth, 'parent' : parent}
+        insertEle(root.left, depth+1, root.val)
+        insertEle(root.right, depth+1, root.val)
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isCousins(self, root: TreeNode, x: int, y: int) -> bool:
+        global elements
+        insertEle(root, 0, None)
+        eleX = elements[x]
+        eleY = elements[y]
+        if eleX['depth'] == eleY['depth'] and eleX['parent'] != eleY['parent']:
+            return True
+        return False
