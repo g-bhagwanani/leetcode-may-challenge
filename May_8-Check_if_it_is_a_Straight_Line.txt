@@ -1,0 +1,26 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/535/week-2-may-8th-may-14th/3323/
+
+Logic - The condition for multiple points to be collinear is that every pair has the same slope. So here, we take the slope between the first 2 points as initial slope, and then we check every other pair and compare it with the initial slope. If at any point, the slope is different, return False. Points (a,b) -> initialSlope. Then keep on checking for (1,2), (2,3), etc.
+
+Code -
+
+import math
+
+def findSlope(a, b):
+    xa = a[0]
+    ya = a[1]
+    xb = b[0]
+    yb = b[1]
+    if xb == xa:
+        return math.inf
+    slope = (yb-ya)/(xb-xa)
+    return slope
+
+class Solution:
+    def checkStraightLine(self, coordinates: List[List[int]]) -> bool:
+        initialSlope = findSlope(coordinates[0], coordinates[1])
+        n = len(coordinates)
+        for i in range(2, n):
+            if findSlope(coordinates[i-1], coordinates[i]) != initialSlope:
+                return False
+        return True
