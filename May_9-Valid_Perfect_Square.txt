@@ -1,0 +1,33 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/535/week-2-may-8th-may-14th/3324/
+
+Logic - The basic idea is to start iterating from i=1 till i*i exceeds num. However before getting into this loop, we can have a basic check that will rule out the possibility of num being a perfect square.
+0*0 = 0
+1*1 = 1
+2*2 = 4
+3*3 = 9
+4*4 = (1)6
+5*5 = (2)5
+6*6 = (3)6
+7*7 = (4)9
+8*8 = (6)4
+9*9 = (8)1
+i.e. all perfect squares end in 0,1,4,5,6 or 9
+Checking this will filter out some cases of unnecessary looping, thus making it more efficient
+
+Code - 
+
+import math
+
+class Solution:
+    def isPerfectSquare(self, num: int) -> bool:
+        
+        lastDigit = int(str(num)[-1])
+        if lastDigit not in [0, 1, 4, 5, 6, 9]:
+            return False
+        
+        i = 1
+        while (i*i) <= num:
+            if i*i == num:
+                return True
+            i += 1
+        return False
