@@ -1,0 +1,22 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/535/week-2-may-8th-may-14th/3326/
+
+Logic - Perform DFS. Create a visited matrix to keep track of the elements that have been visited. Call DFS recursively for every 4-directionally neighbour and in each call check whether the row,col pair is present within the range, and then if it is not visited, check if its value is equal to the original value. If all these conditions are met, change the value of the pixel and mark it as visited.
+
+Code - 
+
+def changeNeighbours(image, row, col, newVal, ogVal, visited):
+    # print(row, col, ogVal)
+    if row < len(image) and col < len(image[0]) and row >= 0 and col >= 0 and not visited[row][col] and image[row][col] == ogVal:
+        image[row][col] = newVal
+        visited[row][col] = True
+        # print('changed', row, col)
+        changeNeighbours(image, row+1, col, newVal, ogVal, visited)
+        changeNeighbours(image, row-1, col, newVal, ogVal, visited)
+        changeNeighbours(image, row, col+1, newVal, ogVal, visited)
+        changeNeighbours(image, row, col-1, newVal, ogVal, visited)
+    
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
+        visited = [[False]*len(image[0]) for i in range(len(image))]
+        changeNeighbours(image, sr, sc, newColor, image[sr][sc], visited)
+        return image
