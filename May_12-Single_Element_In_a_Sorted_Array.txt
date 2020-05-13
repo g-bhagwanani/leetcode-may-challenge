@@ -1,0 +1,39 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/535/week-2-may-8th-may-14th/3327/
+
+Logic - An observation that can be made is since every number is placed twice in the sorted array, its first instance will be at an even index(0,2,4,..) and second instance at an odd one(1,3,5,..). However after an element occurs once, every twice occuring element will now have the first occurence at an odd index and the second occurence at an even index.
+
+index       0 1 2 3 4 5 6 7 8
+elements    1 1 2 2 3 4 4 9 9
+
+Before index 4 - even => first occurence, odd => second occurence
+After index 4 - odd => first occurence, even => second occurence
+
+With this observation in mind, we can use binary search.
+If mid is an even index -
+Check if elements at mid and mid+1 are same, if yes, then the single element is in the right subarray, else left
+If mid is an odd index - 
+Check if the elements at mid and mid-1 are same, if yes, then the single element is in the right subarray, else left
+
+Code -
+
+class Solution:
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        low = 0
+        high = len(nums) - 1
+        while low <= high:
+            if low == high:
+                return nums[low]
+            
+            mid = int((low + high)/2)
+            
+            if mid%2 != 0:
+                if nums[mid] == nums[mid-1]:
+                    low = mid+1
+                else:
+                    high = mid
+            
+            else:
+                if nums[mid] == nums[mid+1]:
+                    low = mid+2
+                else:
+                    high = mid
