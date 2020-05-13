@@ -1,0 +1,44 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/535/week-2-may-8th-may-14th/3328/
+
+Logic - Lets consider a number 1234 with k=1
+remove 1 - 234
+remove 2 - 134
+remove 3 - 124
+remove 4 - 123
+Smallest is 123, which we got by deleting the last digit
+
+Now consider 1432 with k=1
+remove 1 - 432
+remove 4 - 132
+remove 3 - 142
+remove 2 - 143
+Smallest is 132, which we got by deleting 4 because the number next to 4 (which is 3) is smaller than it.
+
+So the logic is to remove the digit for which the next digit is smaller that it. If not, then remove the last digit. Repeat this for k times.
+
+To confirm this, consider 13264 with k=2.
+First remove 3 (2 is next to 3 and smaller than it). Now we have 1264. Now we remove 6 (4 is next to 6 and smaller than it). The result is 124, which is the smallest possible number here.
+
+Code - 
+
+class Solution:
+    def removeKdigits(self, num: str, k: int) -> str:
+        if len(num) == k:
+            return "0"
+        
+        # Remove one digit k times
+        for _ in range(k):
+            i = 0
+            while i < len(num)-1 and num[i] <= num[i+1]:
+                i += 1
+            # print('removing digit as position', i)
+            num = num[:i]+num[i+1:]
+            # print(num)
+        
+        # Leading zeros case
+        while len(num) > 1 and num[0] == '0':
+            # print('removing leading zero')
+            num = num[1:]
+            # print(num)
+            
+        return num
