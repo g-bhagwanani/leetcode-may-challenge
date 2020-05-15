@@ -1,0 +1,42 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/536/week-3-may-15th-may-21st/3330/
+
+Logic - We can classify this problem into 2 major cases, first being maximum sum without circular wrapping, second being max sum with circular wrapping.
+For the non-circular part, we simply use Kadane's algorithm. For the circular part, the idea is that maximum sum will be equal to (sum of all elements in the array) - (sum of elements in minimum sum subarray). The minimum sum subarray can be found out by tweaking Kadane's algorithm, as shown below in the code.
+
+Code -
+
+class Solution:
+    
+    def regularMax(self, a):
+        currentMax = a[0]
+        overallMax = a[0]
+
+        for element in a[1:]:
+            currentMax = max(element, element + currentMax)
+            overallMax = max(currentMax, overallMax)
+        
+        return overallMax
+        
+    def regularMin(self, a):
+        currentMin = a[0]
+        overallMin = a[0]
+
+        for element in a[1:]:
+            currentMin = min(element, element + currentMin)
+            overallMin = min(currentMin, overallMin)
+        
+        return overallMin
+        
+    def maxSubarraySumCircular(self, a):
+    
+        maxRegular = self.regularMax(a)
+        mini = self.regularMin(a)
+        summ = sum(a)
+        maxCircular = summ - mini
+        if mini == summ:
+            # all negative elements case
+            # this means that all negative numbers being added equal to the sum of the numbers
+            # so maxCircular will be 0 (for 0 elements). But we need at least one element, so we return the regular max,                 which will essentially be the smallest element in this case of all negative numbers.
+            return maxRegular
+        else:
+            return max(maxRegular, maxCircular)
