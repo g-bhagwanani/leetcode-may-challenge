@@ -3,6 +3,8 @@ Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/
 Logic - We can classify this problem into 2 major cases, first being maximum sum without circular wrapping, second being max sum with circular wrapping.
 For the non-circular part, we simply use Kadane's algorithm. For the circular part, the idea is that maximum sum will be equal to (sum of all elements in the array) - (sum of elements in minimum sum subarray). The minimum sum subarray can be found out by tweaking Kadane's algorithm, as shown below in the code.
 
+Visit https://leetcode.com/problems/maximum-sum-circular-subarray/discuss/633401/Kadane-Algorithm-Trick-beats-100-Java-Explained for a more visual explanation
+
 Code -
 
 class Solution:
