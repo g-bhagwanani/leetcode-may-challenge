@@ -1,0 +1,50 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/536/week-3-may-15th-may-21st/3331/
+
+
+Logic - One approach to solving this problem is to create 2 arrays for storing the elements of odd and even nodes respectively. Iterate over the linked list once to pick the elements and store them in their respective arrays. Then create a new linked list, iterate over the odd array first, inserting the elements into the list and then the same with even array. This solution will take O(n) space and O(n) time.
+
+An efficient approach will be to first iterate the linked list to calculate n, and to have a variable pointing at the end of the linked list. Now:
+
+1. node is pointing at the first element
+2. node.next is the second element
+3. first, we'll make end.next point to second element because it is supposed to be placed after all the odd elements. now update end to point to this new element placed at the end.
+4. now that second element is moved to the end, we have to change 2 pointers, first is node.next and second is end.next
+5. node.next is still pointing to the second element, so we change it to node.next.next which is the third element.
+6. The next ptr of end (i.e. second element) is pointing to the third element, so we need to break that link.
+
+Keep on doing this for n/2 times 
+
+
+Code - 
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def oddEvenList(self, head: ListNode) -> ListNode:
+        if not head:
+            return head
+        n = 0
+        node = head
+        end = None
+        while True:
+            n += 1
+            print(node.val, n)
+            if node.next:
+                node = node.next
+            else:
+                end = node
+                break
+        
+        node = head
+        for _ in range(int(n/2)):
+            end.next = node.next
+            end = end.next
+            
+            node.next = node.next.next
+            node = node.next
+            end.next = None
+            
+        return head
