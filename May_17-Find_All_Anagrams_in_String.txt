@@ -1,0 +1,50 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/536/week-3-may-15th-may-21st/3332/
+
+Logic - To check if two strings are anagrams, we create dictionaries to store the character counts of both stirngs and compare these dictionaries. If same, then the strings are anagrams, else they're not. So, we first create a counter dictionary for string p. Consider length of p to be m. Now, create counter for first m characters of string s. Compare these counters to check if they're anagrams or not. Now, remove the count of first character in the string s and include the count of the last character in the string s. Again compare the counters, and so on. This is called Sliding Window Approach.
+
+e.g. of sliding window approach ->
+s = abcdefghi
+p = ced
+Since length of p is 3, we will have a window of 3 characters and slide it over s.
+Consider 'abc', then remove 'a' and include 'd', i.e. 'bcd', then 'cde', where match is found!
+
+Code - 
+
+from collections import Counter
+
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        n = len(s)
+        m = len(p)
+        
+        # handle edge case
+        if m > n:
+            return []
+
+        # what is expected
+        northStar = Counter(p)
+        
+        answers = []
+        start = 0
+        current = Counter(s[:m])
+        if current == northStar:
+            answers.append(start)
+        
+        for i in range(m, n):
+
+            # remove starting character
+            current[s[start]] -= 1
+            if current[s[start]] == 0:
+                del current[s[start]]
+
+            # insert new character
+            if s[i] in current:
+                current[s[i]] += 1
+            else:
+                current[s[i]] = 1
+
+            start += 1            
+            if current == northStar:
+                answers.append(start)
+            
+        return answers
