@@ -1,0 +1,43 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/536/week-3-may-15th-may-21st/3333/
+
+Logic - The logic of this question is exactly same as the previous question - Anagrams in a string.
+
+Code - 
+
+from collections import Counter
+
+class Solution:
+    def checkInclusion(self, p: str, s: str) -> bool:
+        n = len(s)
+        m = len(p)
+        
+        # handle edge case
+        if m > n:
+            return False
+
+        # what is expected
+        northStar = Counter(p)
+        
+        start = 0
+        current = Counter(s[:m])
+        if current == northStar:
+            return True
+        
+        for i in range(m, n):
+
+            # remove starting character
+            current[s[start]] -= 1
+            if current[s[start]] == 0:
+                del current[s[start]]
+
+            # insert new character
+            if s[i] in current:
+                current[s[i]] += 1
+            else:
+                current[s[i]] = 1
+
+            start += 1            
+            if current == northStar:
+                return True
+            
+        return False
