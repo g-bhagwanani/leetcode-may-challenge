@@ -1,0 +1,24 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/536/week-3-may-15th-may-21st/3335/
+
+Logic - A property of BSTs is that the inorder traversal gives an ascending order of the array elements. Using this, we can find the kth smallest element at index k-1 in the traversal array. However, we do not need the entire inorder traversal to find the kth smallest element. We can return as soon as we get the kth element of the traversal. We cannot use recursion for this, so we use iteration.
+
+Code - 
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        stack = []
+        while True:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            k -= 1
+            if k == 0:
+                return root.val
+            root = root.right
