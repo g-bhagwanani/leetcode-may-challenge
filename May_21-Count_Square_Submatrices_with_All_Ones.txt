@@ -1,0 +1,25 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/536/week-3-may-15th-may-21st/3336/
+
+Logic - This problem is solved using dynamic programming. The idea is that each cell stores the number of squares that are possible with that cell as the bottom-right corner. 
+A 2x2 square will be valid only if all cells in it are ones, i.e. for a given cell whose value is 1, matrix[i][j] = 1 + min(matrix[i-1][j], matrix[i-1][j-1], matrix[i][j-1]). This is the DP logic. 
+1 because even if the other cells are not one, we still have a 1x1 square. The min function is used because we will get a second square only if min returns 1, which will happen only if all those 3 cells are 1.
+Refer this solution for proper illustration -
+https://leetcode.com/problems/count-square-submatrices-with-all-ones/discuss/643429/Python-DP-Solution-%2B-Thinking-Process-Diagrams-(O(mn)-runtime-O(1)-space)
+
+Code - 
+
+class Solution:
+    def countSquares(self, matrix: List[List[int]]) -> int:
+        result = 0
+        rows = len(matrix)
+        cols = len(matrix[0])
+        
+        for i in range(rows):
+            for j in range(cols):
+                if i != 0 and j != 0:
+                    if matrix[i][j] == 1:
+                        matrix[i][j] = min(matrix[i-1][j], matrix[i][j-1], matrix[i-1][j-1]) + matrix[i][j]
+                # print('adding', matrix[i][j], 'at', i, j, 'to', result)
+                result += matrix[i][j]
+                
+        return result
