@@ -1,0 +1,13 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/537/week-4-may-22nd-may-28th/3337/
+
+from collections import Counter
+
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        count = Counter(s).most_common()
+        
+        result = ''
+        for pair in count:
+            result += pair[0]*pair[1]
+            
+        return result

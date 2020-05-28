@@ -1,0 +1,21 @@
+Question - https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/537/week-4-may-22nd-may-28th/3338/
+
+class Solution:
+    def intervalIntersection(self, A: List[List[int]], B: List[List[int]]) -> List[List[int]]:
+        common = []
+        an, bn, ai, bi = len(A), len(B), 0, 0
+        
+        while ai < an and bi < bn:
+            if A[ai][1] < B[bi][0]:
+                ai += 1
+            elif A[ai][0] > B[bi][1]:
+                bi += 1
+            else:
+                interval = [max(A[ai][0], B[bi][0]), min(A[ai][1], B[bi][1])]
+                common.append(interval)
+                if A[ai][1] < B[bi][1]:
+                    ai += 1
+                else:
+                    bi += 1
+                    
+        return common
