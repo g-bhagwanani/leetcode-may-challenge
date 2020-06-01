@@ -1,0 +1,41 @@
+from collections import defaultdict
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+
+        def isCycle(node):
+            nonlocal visited, inStack, adjacency
+            
+            visited[node] = True
+            inStack[node] = True
+            
+            # print(node, visited, inStack)
+            
+            for neighbor in adjacency[node]:
+                # print('checking neighbor', neighbor, 'of', node)
+                if not visited[neighbor]:
+                    if isCycle(neighbor):
+                        return True
+                elif inStack[neighbor]:
+                    # print('here, how?')
+                    return True
+            
+            inStack[node] = False
+            return False
+        
+        adjacency = defaultdict(list)
+        for pair in prerequisites:
+            adjacency[pair[0]].append(pair[1])
+
+        # print(adjacency)
+            
+        visited = [False]*numCourses
+        inStack = [False]*numCourses
+        
+        for node in range(numCourses):
+            if not visited[node]:
+                ans = isCycle(node)
+                if ans:
+                    return False
+        
+        return True
